@@ -15,19 +15,6 @@ exports.listarUsuarios = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-//listar todos os usuarios
-exports.listarUsuariosInativos = (req, res, next) => {
-  Usuario.findAll({
-    where: {
-      statusUsuario: false,
-    },
-  })
-    .then((users) => {
-      res.status(200).json({ users: users });
-    })
-    .catch((err) => console.log(err));
-};
-
 //retornar um usuario especifico
 exports.encontrarUsuario = (req, res, next) => {
   const userId = req.params.id;
