@@ -21,7 +21,6 @@ app.get("/", (req, res, next) => {
 
 //CRUD routes
 app.use("/users", require("./routes/users"));
-app.use("/users/inativos", require("./routes/users"));
 
 //error handling
 app.use((error, req, res, next) => {

@@ -4,15 +4,27 @@ const Usuario = require("../models/user");
 
 //listar todos os usuarios
 exports.listarUsuarios = (req, res, next) => {
-  Usuario.findAll({
-    where: {
-      statusUsuario: req.body.statusUsuario,
-    },
-  })
-    .then((users) => {
-      res.status(200).json({ users: users });
+  if (req.body.statusUsuario === "false") {
+    Usuario.findAll({
+      where: {
+        statusUsuario: false,
+      },
     })
-    .catch((err) => console.log(err));
+      .then((users) => {
+        res.status(200).json({ users: users });
+      })
+      .catch((err) => console.log(err));
+  } else {
+    Usuario.findAll({
+      where: {
+        statusUsuario: true,
+      },
+    })
+      .then((users) => {
+        res.status(200).json({ users: users });
+      })
+      .catch((err) => console.log(err));
+  }
 };
 
 //retornar um usuario especifico
@@ -20,7 +32,7 @@ exports.encontrarUsuario = (req, res, next) => {
   const userId = req.params.id;
   Usuario.findByPk(userId)
     .then((user) => {
-      if (!user) {
+      if (!user || !user.statusUsuario) {
         return res.status(404).json({ message: "O usuario nao existe." });
       }
       res.status(200).json({ user: user });
