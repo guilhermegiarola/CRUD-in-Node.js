@@ -40,6 +40,28 @@ exports.encontrarUsuario = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+exports.encontrarLogin = (req, res, next) => {
+  console.log(req.body.login, req.body.senha);
+  const userLogin = req.body.login;
+  const userPassword = req.body.senha;
+  Usuario.findAll({
+    where: {
+      statusUsuario: true,
+      senha: userPassword,
+      login: userLogin,
+    },
+  })
+    .then((user) => {
+      if (Object.keys(user).length === 0) {
+        return res.status(200).json({ message: "Usuario nao encontrado!" });
+      }
+      res.status(200).json({ user: user });
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
 //inserir um novo usuario
 exports.inserirUsuario = (req, res, next) => {
   Usuario.create({
