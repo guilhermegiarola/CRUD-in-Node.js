@@ -3,10 +3,10 @@ const router = require("express").Router();
 
 router.put("/login", controller.encontrarLogin);
 router.put("/recuperarSenha", controller.recuperarSenha);
-router.get("/", controller.listarUsuarios);
-router.get("/:id", controller.encontrarUsuario);
+router.get("/listar", controller.listarUsuarios);
+router.get("/", controller.encontrarUsuario);
 router.post("/", controller.inserirUsuario);
-router.put("/:id", controller.alterarUsuario);
+router.put("/", controller.alterarUsuario);
 router.delete("/:id", controller.excluirUsuario);
 
 module.exports = router;

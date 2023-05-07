@@ -4,7 +4,7 @@ const Usuario = require("../models/user");
 
 //listar todos os usuarios
 exports.listarUsuarios = (req, res, next) => {
-  if (req.body.statusUsuario === "false") {
+  if (req.body.statusUsuario === false) {
     Usuario.findAll({
       where: {
         statusUsuario: false,
@@ -29,8 +29,12 @@ exports.listarUsuarios = (req, res, next) => {
 
 //retornar um usuario especifico
 exports.encontrarUsuario = (req, res, next) => {
-  const userId = req.params.id;
-  Usuario.findByPk(userId)
+  const userCPF = req.body.cpf;
+  Usuario.findAll({
+    where: {
+      cpf: userCPF,
+    },
+  })
     .then((user) => {
       if (!user || !user.statusUsuario) {
         return res.status(404).json({ message: "O usuario nao existe." });
@@ -65,7 +69,6 @@ exports.recuperarSenha = (req, res, next) => {
   const userLogin = req.body.login;
   const userCPF = req.body.cpf;
   const userEmail = req.body.email;
-  console.log(userLogin, userCPF, userEmail);
   Usuario.findAll({
     where: {
       email: userEmail,
@@ -113,7 +116,6 @@ exports.inserirUsuario = (req, res, next) => {
 
 //alterar um usuario
 exports.alterarUsuario = (req, res, next) => {
-  const idUsuario = req.params.id;
   const nome = req.params.nome;
   const login = req.body.login;
   const senha = req.body.senha;
@@ -123,8 +125,13 @@ exports.alterarUsuario = (req, res, next) => {
   const dataNascimento = req.body.dataNascimento;
   const nomeMae = req.body.nomeMae;
 
-  Usuario.findByPk(idUsuario)
+  Usuario.findOne({
+    where: {
+      cpf: cpf,
+    },
+  })
     .then((user) => {
+      console.log(user);
       if (!user) {
         return res.status(404).json({ message: "Usuario nao encontrado!" });
       }

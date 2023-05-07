@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import Router from "next/router";
 import Form from "../../components/Form";
 
 export default function ResetSenha() {
@@ -61,6 +62,12 @@ export default function ResetSenha() {
 			}}>
 				Recuperar Senha
 			</button>	
+			<button onClick={(e) => {
+            Router.push("/");
+			}}>
+				Voltar para a Tela de Login
+			</button>	
+
 			<div>
 				<span><b>{errorMessage}</b></span>
 			</div>
