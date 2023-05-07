@@ -1,9 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import Router from "next/router";
-import Form from "../../components/Form";
-import Field from "../../components/Field";
-
+import Header from "../../components/Header";
+import styles from "./index.module.css";
 export default function CadastrarUsuario() {
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
@@ -32,95 +31,101 @@ export default function CadastrarUsuario() {
     };
 
     axios(req).then((data) => {
-      console.log(data);
       Router.push("/listaUsuarios");
     });
   };
 
   return (
-    <Form>
-      <h3>Cadastrar Usuario</h3>
-      <Field>
-        <div>
-          <span> Login: </span>
+    <>
+      <Header>
+        <div className={styles.Title}>Cadastrar Usuário</div>
+      </Header>
+      <div className={styles.Form}>
+        <div className={styles.FormField}>
+          <div>
+            <span> Login: </span>
+            <input
+              onChange={(e) => {
+                setLogin(e.target.value);
+              }}
+            />
+            <span className={styles.Span}> Senha: </span>
+            <input
+              type="password"
+              onChange={(e) => {
+                setSenha(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <div className={styles.FormField}>
+          <span className={styles.Span}> Nome </span>
           <input
             onChange={(e) => {
-              setLogin(e.target.value);
+              setNome(e.target.value);
             }}
           />
-          <span> Senha: </span>
+          <span className={styles.Span}>e-Mail: </span>
           <input
-            type="password"
             onChange={(e) => {
-              setSenha(e.target.value);
+              setEmail(e.target.value);
             }}
           />
         </div>
-      </Field>
-      <Field>
-        <span> Nome </span>
-        <input
-          onChange={(e) => {
-            setNome(e.target.value);
-          }}
-        />
-        <span>e-Mail: </span>
-        <input
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-      </Field>
-      <Field>
-        <span>CPF: </span>
-        <input
-          onChange={(e) => {
-            setCpf(e.target.value);
-          }}
-        />
-        <span> Tel.: </span>
-        <input
-          onChange={(e) => {
-            setTelefone(e.target.value);
-          }}
-        />
-      </Field>
-      <Field>
-        <span>Data de Nascimento: </span>
-        <input
-          onChange={(e) => {
-            setDataNascimento(e.target.value);
-          }}
-        />
-      </Field>
-      <Field>
-        <span>Nome da Mãe: </span>
-        <input
-          onChange={(e) => {
-            setNomeMae(e.target.value);
-          }}
-        />
-      </Field>
-      <button
-        onClick={(e) => {
-          CadastrarUsuario();
-        }}
-      >
-        Cadastrar Usuário
-      </button>
-      <button
-        onClick={(e) => {
-          Router.push("/listaUsuarios");
-        }}
-      >
-        Voltar para a Lista de Usuários
-      </button>
-
-      <div>
-        <span>
-          <b>{errorMessage}</b>
-        </span>
+        <div className={styles.FormField}>
+          <span>CPF: </span>
+          <input
+            onChange={(e) => {
+              setCpf(e.target.value);
+            }}
+          />
+          <span className={styles.Span}> Tel.: </span>
+          <input
+            onChange={(e) => {
+              setTelefone(e.target.value);
+            }}
+          />
+        </div>
+        <div className={styles.FormField}>
+          <span>Data de Nascimento: </span>
+          <input
+            onChange={(e) => {
+              setDataNascimento(e.target.value);
+            }}
+          />
+        </div>
+        <div className={styles.FormField}>
+          <span className={styles.Span}>Nome da Mãe: </span>
+          <input
+            onChange={(e) => {
+              setNomeMae(e.target.value);
+            }}
+          />
+        </div>
+        <div>
+          <button
+            className={styles.FormButton}
+            onClick={(e) => {
+              CadastrarUsuario();
+            }}
+          >
+            Cadastrar Usuário
+          </button>
+          <button
+            className={styles.FormButton}
+            onClick={(e) => {
+              Router.push("/listaUsuarios");
+            }}
+          >
+            Voltar para a Lista de Usuários
+          </button>
+        </div>
+        <div>
+          <span>
+            <b>{errorMessage}</b>
+          </span>
+        </div>
       </div>
-    </Form>
+    </>
   );
 }

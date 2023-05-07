@@ -2,17 +2,36 @@
   padding-left: 10px;
   color: black;
   text-decoration: none;
+
+  display: flex;
+  align-self: center;
 }
 
 .loginField {
   margin: 10px;
-  padding-top: 10px;
+  padding: 10px 0px;
+  display: inline-block;
+  align-self: center;
 }
 
 .loginButton {
-  margin-bottom: 10px;
+  width: 150px;
+  height: 25px;
+  align-self: center;
 }
 
 .errorMessage {
-  margin-bottom: 10px;
+  align-self: center;
+  padding: 10px;
+}
+
+.loginForm {
+  display: flex;
+  align-self: center;
+  margin-right: 10px;
+}
+
+.resetPassword {
+  align-self: center;
+  padding: 10px;
 }

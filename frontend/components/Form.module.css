@@ -1,8 +1,6 @@
 .form {
   background-color: lightslategrey;
-  max-width: 400px;
   min-width: 200px;
-  border-radius: 10px;
   align-items: center;
   display: flex;
   justify-content: center;

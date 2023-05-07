@@ -2,6 +2,9 @@ import Router from "next/router";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import PaginatedList from "../../components/PaginatedList";
+import Link from "next/link";
+import Header from "../../components/Header";
+import styles from "./index.module.css";
 export default function ListaUsuarios() {
   const [listaUsuarios, setListaUsuarios] = useState([]);
   const [loadedPage, setLoadedPage] = useState(false);
@@ -25,16 +28,12 @@ export default function ListaUsuarios() {
 
   return (
     <>
-      <div>
-        <button
-          onClick={(e) => {
-            Router.push("/");
-          }}
-        >
+      <Header>
+        <Link href="/" className={styles.forgotPassword}>
           Voltar para a tela de Login
-        </button>
+        </Link>
         <span> Total de registros: {totalRegistros}</span>
-      </div>
+      </Header>
       <PaginatedList items={listaUsuarios} />
       <div>
         <button

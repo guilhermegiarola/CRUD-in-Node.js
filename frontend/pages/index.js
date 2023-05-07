@@ -3,7 +3,7 @@ import styles from "./index.module.css";
 import { useState } from "react";
 import Router from "next/router";
 import Link from "next/link";
-import Form from "../components/Form";
+import Header from "../components/Header";
 
 export default function Login() {
   const [login, setLogin] = useState("");
@@ -49,48 +49,51 @@ export default function Login() {
   };
 
   return (
-    <Form>
-      <div>
-        <div className={styles.loginField}>
-          <span>Login: </span>
-          <input
-            onChange={(e) => {
-              setLogin(e.target.value);
+    <>
+      <Header>
+        <div className={styles.loginForm}>
+          <div className={styles.loginField}>
+            <span>Login: </span>
+            <input
+              onChange={(e) => {
+                setLogin(e.target.value);
+              }}
+            />
+          </div>
+          <span className={styles.errorMessage}>{loginFieldMessage}</span>
+
+          <div className={styles.loginForm}>
+            <div className={styles.loginField}>
+              <span>Senha: </span>
+              <input
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                type="password"
+              />
+            </div>
+            <span className={styles.errorMessage}>{passwordFieldMessage}</span>
+          </div>
+          <button
+            className={styles.loginButton}
+            onClick={(e) => {
+              Login();
             }}
-          />
+          >
+            {" "}
+            Login{" "}
+          </button>
+          <div className={styles.errorMessage}>
+            <span>{errorMessage}</span>
+          </div>
         </div>
-        <div className={styles.errorMessage}>
-          <span>{loginFieldMessage}</span>
+        <div className={(styles.loginForm, styles.resetPassword)}>
+          <Link href="/resetSenha" className={styles.forgotPassword}>
+            {" "}
+            Esqueceu sua Senha?
+          </Link>
         </div>
-        <div className={styles.loginField}>
-          <span>Senha: </span>
-          <input
-            type="password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-        </div>
-        <div className={styles.errorMessage}>
-          <span>{passwordFieldMessage}</span>
-        </div>
-        <button
-          className={styles.loginButton}
-          onClick={(e) => {
-            Login();
-          }}
-        >
-          {" "}
-          Login{" "}
-        </button>
-        <Link href="/resetSenha" className={styles.forgotPassword}>
-          {" "}
-          Esqueceu sua Senha?
-        </Link>
-        <div className={styles.errorMessage}>
-          <span>{errorMessage}</span>
-        </div>
-      </div>
-    </Form>
+      </Header>
+    </>
   );
 }

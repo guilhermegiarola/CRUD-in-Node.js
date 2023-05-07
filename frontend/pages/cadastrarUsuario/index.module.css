@@ -1,0 +1,24 @@
+.Title {
+  display: flex;
+  align-self: center;
+}
+
+.Form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.Span {
+  padding-left: 20px;
+}
+
+.FormField {
+  padding: 5px 0px;
+}
+
+.FormButton {
+  margin: 5px;
+}
