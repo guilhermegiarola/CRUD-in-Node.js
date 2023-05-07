@@ -41,7 +41,6 @@ exports.encontrarUsuario = (req, res, next) => {
 };
 
 exports.encontrarLogin = (req, res, next) => {
-  console.log(req.body.login, req.body.senha);
   const userLogin = req.body.login;
   const userPassword = req.body.senha;
   Usuario.findAll({
@@ -56,6 +55,29 @@ exports.encontrarLogin = (req, res, next) => {
         return res.status(200).json({ message: "Usuario nao encontrado!" });
       }
       res.status(200).json({ user: user });
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+exports.recuperarSenha = (req, res, next) => {
+  const userLogin = req.body.login;
+  const userCPF = req.body.cpf;
+  const userEmail = req.body.email;
+  console.log(userLogin, userCPF, userEmail);
+  Usuario.findAll({
+    where: {
+      email: userEmail,
+      cpf: userCPF,
+      login: userLogin,
+    },
+  })
+    .then((response) => {
+      if (Object.keys(response).length === 0) {
+        return res.status(200).json({ message: "Usuario nao encontrado!" });
+      }
+      res.status(200).json({ senha: response[0].senha });
     })
     .catch((err) => {
       return err;

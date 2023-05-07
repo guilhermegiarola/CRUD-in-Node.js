@@ -1,13 +1,7 @@
-.loginFields {
-  background-color: pink;
-  max-width: 400px;
-  min-width: 200px;
-  border-radius: 10px;
-  align-items: center;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
+.forgotPassword {
+  padding-left: 10px;
+  color: black;
+  text-decoration: none;
 }
 
 .loginField {
@@ -16,5 +10,9 @@
 }
 
 .loginButton {
+  margin-bottom: 10px;
+}
+
+.errorMessage {
   margin-bottom: 10px;
 }

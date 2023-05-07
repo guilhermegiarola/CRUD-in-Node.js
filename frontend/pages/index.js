@@ -3,11 +3,24 @@ import styles from "./index.module.css";
 import { useState } from "react";
 import Router from "next/router";
 import Link from "next/link";
+import Form from "../components/Form";
 
 export default function Login() {
   const [login, setLogin] = useState("");
+  const [loginFieldMessage, setLoginFieldMessage] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordFieldMessage, setPasswordFieldMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  function HandleErrorMessages(login, password) {
+    login === ""
+      ? setLoginFieldMessage("Campo requerido!")
+      : setLoginFieldMessage("");
+
+    password === ""
+      ? setPasswordFieldMessage("Campo requerido!")
+      : setPasswordFieldMessage("");
+  }
 
   const Login = () => {
     let req = {
@@ -18,6 +31,14 @@ export default function Login() {
         senha: password,
       },
     };
+
+    HandleErrorMessages(login, password);
+
+    if (login === "" || password === "") {
+      setErrorMessage("");
+      return;
+    }
+
     axios(req).then((data) => {
       if (data.data.user !== undefined) {
         setErrorMessage("");
@@ -28,7 +49,7 @@ export default function Login() {
   };
 
   return (
-    <div className={styles.loginFields}>
+    <Form>
       <div>
         <div className={styles.loginField}>
           <span>Login: </span>
@@ -37,6 +58,9 @@ export default function Login() {
               setLogin(e.target.value);
             }}
           />
+        </div>
+        <div className={styles.errorMessage}>
+          <span>{loginFieldMessage}</span>
         </div>
         <div className={styles.loginField}>
           <span>Senha: </span>
@@ -47,6 +71,9 @@ export default function Login() {
             }}
           />
         </div>
+        <div className={styles.errorMessage}>
+          <span>{passwordFieldMessage}</span>
+        </div>
         <button
           className={styles.loginButton}
           onClick={(e) => {
@@ -56,11 +83,14 @@ export default function Login() {
           {" "}
           Login{" "}
         </button>
-        <Link href="/resetSenha"> Esqueceu sua Senha?</Link>
-        <div>
+        <Link href="/resetSenha" className={styles.forgotPassword}>
+          {" "}
+          Esqueceu sua Senha?
+        </Link>
+        <div className={styles.errorMessage}>
           <span>{errorMessage}</span>
         </div>
       </div>
-    </div>
+    </Form>
   );
 }
