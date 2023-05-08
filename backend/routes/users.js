@@ -7,6 +7,7 @@ router.get("/listar", controller.listarUsuarios);
 router.get("/", controller.encontrarUsuario);
 router.post("/", controller.inserirUsuario);
 router.put("/", controller.alterarUsuario);
+router.put("/bloquear", controller.bloquearUsuario);
 router.delete("/:id", controller.excluirUsuario);
 
 module.exports = router;

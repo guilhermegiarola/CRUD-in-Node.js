@@ -10,6 +10,36 @@ export default function ListaUsuarios() {
   const [loadedPage, setLoadedPage] = useState(false);
   const [totalRegistros, setTotalRegistros] = useState(0);
 
+  const DesativarUsuario = (id) => {
+    let req = {
+      url: `http://localhost:3000/users/${id}`,
+      method: "DELETE",
+    };
+
+    axios(req).then((data) => {
+      console.log(data.data.message);
+    });
+    setListaUsuarios(listaUsuarios.filter((el) => el.id !== id));
+  };
+
+  const BloquearUsuario = (id) => {
+    let req = {
+      url: `http://localhost:3000/users/bloquear`,
+      method: "PUT",
+      data: {
+        id: id,
+      },
+    };
+
+    axios(req).then((data) => {
+      alert(data.data.message);
+    });
+  };
+
+  const EditarUsuario = (usuario) => {
+    console.log("Editando usuario");
+  };
+
   useEffect(() => {
     let req = {
       url: "http://localhost:3000/users/listar",
@@ -34,7 +64,12 @@ export default function ListaUsuarios() {
         </Link>
         <span> Total de registros: {totalRegistros}</span>
       </Header>
-      <PaginatedList items={listaUsuarios} />
+      <PaginatedList
+        items={listaUsuarios}
+        DesativarUsuario={DesativarUsuario}
+        EditarUsuario={EditarUsuario}
+        BloquearUsuario={BloquearUsuario}
+      />
       <div>
         <button
           onClick={(e) => {

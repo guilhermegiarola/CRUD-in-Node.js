@@ -56,7 +56,9 @@ exports.encontrarLogin = (req, res, next) => {
   })
     .then((user) => {
       if (Object.keys(user).length === 0) {
-        return res.status(200).json({ message: "Usuario nao encontrado!" });
+        return res.status(200).json({ message: "Usuário não encontrado!" });
+      } else if (user[0].bloqueado) {
+        return res.status(200).json({ message: "Usuário bloqueado!" });
       }
       res.status(200).json({ user: user });
     })
@@ -101,6 +103,7 @@ exports.inserirUsuario = (req, res, next) => {
     statusUsuario: true,
     dataInclusao: Date.now(),
     dataAlteracao: Date.now(),
+    bloqueado: false,
   })
     .then((result) => {
       console.log("Usuario criado.");
@@ -148,6 +151,23 @@ exports.alterarUsuario = (req, res, next) => {
     })
     .then((result) => {
       res.status(200).json({ message: "Usuario atualizado!", user: result });
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.bloquearUsuario = (req, res, next) => {
+  const idUsuario = req.body.id;
+  Usuario.findByPk(idUsuario)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ message: "Usuario nao encontrado!" });
+      }
+      user.bloqueado = true;
+      user.dataAlteracao = Date.now();
+      return user.save();
+    })
+    .then((result) => {
+      res.status(200).json({ message: "Usuario bloqueado.", user: result });
     })
     .catch((err) => console.log(err));
 };

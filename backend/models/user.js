@@ -19,6 +19,7 @@ const User = db.define("user", {
   statusUsuario: Sequelize.BOOLEAN,
   dataInclusao: Sequelize.DATE,
   dataAlteracao: Sequelize.DATE,
+  bloqueado: Sequelize.BOOLEAN,
 });
 
 module.exports = User;
