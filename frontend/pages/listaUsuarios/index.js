@@ -37,7 +37,15 @@ export default function ListaUsuarios() {
   };
 
   const EditarUsuario = (usuario) => {
-    console.log("Editando usuario");
+    Router.push(
+      {
+        pathname: "/editarUsuario",
+        query: {
+          myData: JSON.stringify(usuario),
+        },
+      },
+      "editarUsuario"
+    );
   };
 
   useEffect(() => {
