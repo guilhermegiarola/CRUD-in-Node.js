@@ -119,7 +119,8 @@ exports.inserirUsuario = (req, res, next) => {
 
 //alterar um usuario
 exports.alterarUsuario = (req, res, next) => {
-  const nome = req.params.nome;
+  const id = req.body.id;
+  const nome = req.body.nome;
   const login = req.body.login;
   const senha = req.body.senha;
   const email = req.body.email;
@@ -128,13 +129,8 @@ exports.alterarUsuario = (req, res, next) => {
   const dataNascimento = req.body.dataNascimento;
   const nomeMae = req.body.nomeMae;
 
-  Usuario.findOne({
-    where: {
-      cpf: cpf,
-    },
-  })
+  Usuario.findByPk(id)
     .then((user) => {
-      console.log(user);
       if (!user) {
         return res.status(404).json({ message: "Usuario nao encontrado!" });
       }

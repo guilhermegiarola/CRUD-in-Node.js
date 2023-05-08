@@ -5,6 +5,7 @@ import PaginatedList from "../../components/PaginatedList";
 import Link from "next/link";
 import Header from "../../components/Header";
 import styles from "./index.module.css";
+import { generatePDF } from "../../util/exportingTables";
 export default function ListaUsuarios() {
   const [listaUsuarios, setListaUsuarios] = useState([]);
   const [loadedPage, setLoadedPage] = useState(false);
@@ -86,7 +87,13 @@ export default function ListaUsuarios() {
         >
           Cadastrar Usuario
         </button>
-        <button>Exportar para PDF</button>
+        <button
+          onClick={(e) => {
+            generatePDF(listaUsuarios);
+          }}
+        >
+          Exportar para PDF
+        </button>
         <button>Exportar para Excel</button>
         <button>Exportar para Word</button>
       </div>
