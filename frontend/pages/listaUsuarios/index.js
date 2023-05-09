@@ -5,7 +5,7 @@ import PaginatedList from "../../components/PaginatedList";
 import Link from "next/link";
 import Header from "../../components/Header";
 import styles from "./index.module.css";
-import { generatePDF } from "../../util/exportingTables";
+import { generatePDF, generateXML } from "../../util/exportingTables";
 import Filtros from "../../components/Filtros";
 export default function ListaUsuarios() {
   const [listaUsuarios, setListaUsuarios] = useState([]);
@@ -62,7 +62,6 @@ export default function ListaUsuarios() {
         statusUsuario: listarInativos,
       },
     };
-    console.log("listarInativos", listarInativos);
 
     axios(req).then((data) => {
       setListaUsuarios(data.data.users);
@@ -117,7 +116,14 @@ export default function ListaUsuarios() {
         >
           Exportar para PDF
         </button>
-        <button className={styles.button}>Exportar para Excel</button>
+        <button
+          className={styles.button}
+          onClick={(e) => {
+            generateXML(listaUsuarios);
+          }}
+        >
+          Exportar para Excel
+        </button>
         <button className={styles.button}>Exportar para Word</button>
       </div>
     </>

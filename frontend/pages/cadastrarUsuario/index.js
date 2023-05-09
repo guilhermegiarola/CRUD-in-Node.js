@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import axios from "axios";
 import Router from "next/router";
 import Header from "../../components/Header";
@@ -14,7 +14,7 @@ export default function CadastrarUsuario() {
   const [dataNascimento, setDataNascimento] = useState("");
   const [nomeMae, setNomeMae] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  let validationObject = {
+  const [validationObject, setValidationObject] = useState({
     login: true,
     senha: true,
     nome: true,
@@ -23,24 +23,33 @@ export default function CadastrarUsuario() {
     telefone: true,
     dataNascimento: true,
     nomeMae: true,
-  };
+  });
 
   const ValidarCamposCadastro = (validationObject) => {
-    validationObject.login = login !== "";
-    validationObject.senha = senha !== "";
-    validationObject.nome = nome !== "";
-    validationObject.email = email !== "";
-    validationObject.cpf = cpf !== "";
-    validationObject.telefone = telefone !== "";
-    validationObject.dataNascimento = dataNascimento !== "";
-    validationObject.nomeMae = nomeMae !== "";
+    setValidationObject({
+      login: login !== "",
+      senha: senha !== "",
+      nome: nome !== "",
+      email: email !== "",
+      cpf: cpf !== "",
+      telefone: telefone !== "",
+      dataNascimento: dataNascimento !== "",
+      nomeMae: nomeMae !== "",
+    });
   };
+
+  useMemo(() => {
+    console.log(validationObject);
+  }, [validationObject]);
 
   const CadastrarUsuario = () => {
     ValidarCamposCadastro(validationObject);
+
     if (Object.values(validationObject).filter((e) => e !== true).length > 0) {
-      setErrorMessage("");
+      setErrorMessage("Existem campos faltantes.");
       return;
+    } else {
+      setErrorMessage("");
     }
 
     let req = {
@@ -58,15 +67,17 @@ export default function CadastrarUsuario() {
       },
     };
 
-    axios(req)
-      .then((data) => {
-        setErrorMessage("");
-        Router.push("/listaUsuarios");
-      })
-      .catch((err) => {
-        setErrorMessage("Já existe outro usuário com este CPF.");
-        return;
-      });
+    if (errorMessage === "") {
+      axios(req)
+        .then((data) => {
+          setErrorMessage("");
+          Router.push("/listaUsuarios");
+        })
+        .catch((err) => {
+          setErrorMessage(err.response.data.message);
+          return;
+        });
+    }
   };
 
   return (
@@ -76,23 +87,21 @@ export default function CadastrarUsuario() {
       </Header>
       <div className={styles.Form}>
         <div className={styles.FormField}>
-          <div>
-            <Field
-              title="Login: "
-              isValid={validationObject.login}
-              onChange={(e) => {
-                setLogin(e.target.value);
-              }}
-            />
-            <Field
-              title="Senha: "
-              isValid={validationObject.senha}
-              type="password"
-              onChange={(e) => {
-                setSenha(e.target.value);
-              }}
-            />
-          </div>
+          <Field
+            title="Login: "
+            isValid={validationObject.login}
+            onChange={(e) => {
+              setLogin(e.target.value);
+            }}
+          />
+          <Field
+            title="Senha: "
+            isValid={validationObject.senha}
+            type="password"
+            onChange={(e) => {
+              setSenha(e.target.value);
+            }}
+          />
         </div>
         <div className={styles.FormField}>
           <Field

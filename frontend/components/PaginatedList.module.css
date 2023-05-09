@@ -10,7 +10,6 @@
   justify-content: center;
   align-items: center;
   list-style: none;
-  max-width: 60%;
 }
 
 .table {
@@ -49,6 +48,8 @@
   border: 1px solid #eaeaea;
   border-radius: 0.5rem;
   cursor: pointer;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 /* pagination page item when active */
@@ -61,5 +62,7 @@
   border: 1px solid #eaeaea;
   border-radius: 0.5rem;
   cursor: pointer;
-  background-color: lightblue;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  background-color: orange;
 }

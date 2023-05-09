@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import axios from "axios";
 import Router, { useRouter } from "next/router";
 import Header from "../../components/Header";
+import Field from "../../components/Field";
 import styles from "./index.module.css";
-import { data } from "autoprefixer";
 export default function EditarUsuario() {
   const router = useRouter();
   console.log(router.query.myData);
@@ -20,6 +20,29 @@ export default function EditarUsuario() {
   const [bloqueado, setBloqueado] = useState(false);
   const [loadedPage, setLoadedPage] = useState(false);
   const [statusUsuario, setStatusUsuario] = useState(true);
+  const [validationObject, setValidationObject] = useState({
+    login: true,
+    senha: true,
+    nome: true,
+    email: true,
+    cpf: true,
+    telefone: true,
+    dataNascimento: true,
+    nomeMae: true,
+  });
+
+  const ValidarCamposCadastro = (validationObject) => {
+    setValidationObject({
+      login: login !== "",
+      senha: senha !== "",
+      nome: nome !== "",
+      email: email !== "",
+      cpf: cpf !== "",
+      telefone: telefone !== "",
+      dataNascimento: dataNascimento !== "",
+      nomeMae: nomeMae !== "",
+    });
+  };
 
   useEffect(() => {
     setLogin(user.login);
@@ -36,6 +59,9 @@ export default function EditarUsuario() {
   }, [loadedPage]);
 
   const EditarUsuario = () => {
+    ValidarCamposCadastro(validationObject);
+
+    setErrorMessage("");
     let req = {
       url: "http://localhost:3000/users/",
       method: "PUT",
@@ -55,12 +81,12 @@ export default function EditarUsuario() {
     };
 
     axios(req)
-      .then((data) => {
+      .then(() => {
         setErrorMessage("");
         Router.push("/listaUsuarios");
       })
       .catch((err) => {
-        setErrorMessage("Já existe outro usuário com este login.");
+        setErrorMessage(err.response.data.message);
         return;
       });
   };
@@ -72,60 +98,70 @@ export default function EditarUsuario() {
       </Header>
       <div className={styles.Form}>
         <div className={styles.FormField}>
-          <div>
-            <span> Login: </span>
-            <input
-              value={login}
-              onChange={(e) => {
-                setLogin(e.target.value);
-              }}
-            />
-            <span className={styles.Span}> Senha: </span>
-            <input
-              value={senha}
-              type="password"
-              onChange={(e) => {
-                setSenha(e.target.value);
-              }}
-            />
-          </div>
+          <Field
+            title="Login: "
+            value={login}
+            isValid={validationObject.login}
+            onChange={(e) => {
+              setLogin(e.target.value);
+            }}
+          />
+          <Field
+            title="Senha: "
+            value={senha}
+            isValid={validationObject.senha}
+            type="password"
+            onChange={(e) => {
+              setSenha(e.target.value);
+            }}
+          />
         </div>
         <div className={styles.FormField}>
-          <span className={styles.Span}> Nome </span>
-          <input
+          <Field
+            title="Nome: "
             value={nome}
+            isValid={validationObject.nome}
+            type=""
             onChange={(e) => {
               setNome(e.target.value);
             }}
           />
-          <span className={styles.Span}>e-Mail: </span>
-          <input
+          <Field
+            title="e-Mail: "
             value={email}
+            isValid={validationObject.email}
+            type=""
             onChange={(e) => {
               setEmail(e.target.value);
             }}
           />
         </div>
         <div className={styles.FormField}>
-          <span>CPF: </span>
-          <input
+          <Field
+            title="CPF: "
             value={cpf}
+            isValid={validationObject.cpf}
+            type=""
             onChange={(e) => {
               setCpf(e.target.value);
             }}
           />
-          <span className={styles.Span}> Tel.: </span>
-          <input
+          <Field
+            title="Telefone: "
+            isValid={validationObject.telefone}
             value={telefone}
+            type=""
             onChange={(e) => {
               setTelefone(e.target.value);
             }}
           />
         </div>
         <div className={styles.FormField}>
-          <span>Data de Nascimento: </span>
-          <input
+          <Field
+            title="Data de Nascimento: "
+            isValid={validationObject.dataNascimento}
             value={dataNascimento}
+            type=""
             onChange={(e) => {
               setDataNascimento(e.target.value);
             }}
@@ -141,9 +177,11 @@ export default function EditarUsuario() {
           />
         </div>
         <div className={styles.FormField}>
-          <span className={styles.Span}>Nome da Mãe: </span>
-          <input
+          <Field
+            title="Nome da Mãe: "
+            isValid={validationObject.nomeMae}
             value={nomeMae}
+            type=""
             onChange={(e) => {
               setNomeMae(e.target.value);
             }}

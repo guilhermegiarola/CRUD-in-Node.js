@@ -1,6 +1,22 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { Document } from "docx";
+import exportFromJSON from "export-from-json";
+
+export const generateXML = (data) => {
+  data.forEach((element) => {
+    delete element.id;
+    delete element.senha;
+    delete element.statusUsuario;
+    delete element.dataInclusao;
+    delete element.dataAlteracao;
+    delete element.bloqueado;
+    delete element.createdAt;
+    delete element.updatedAt;
+  });
+  const filename = `listaUsuarios`;
+  const exportType = exportFromJSON.types.csv;
+  exportFromJSON({ data, filename, exportType });
+};
 
 export const generatePDF = (data) => {
   const document = new jsPDF("l");

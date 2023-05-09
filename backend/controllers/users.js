@@ -103,6 +103,10 @@ exports.inserirUsuario = async (req, res, next) => {
       .json({ message: "Já existe outro usuário com este CPF." });
   }
 
+  if (Object.values(req.body).filter((e) => e === "").length > 0) {
+    return res.status(422).json({ message: "Existem campos faltantes." });
+  }
+
   Usuario.create({
     nome: req.body.nome,
     login: req.body.login,
@@ -154,6 +158,10 @@ exports.alterarUsuario = async (req, res, next) => {
         .status(409)
         .json({ message: "Já existe outro usuário com este login." });
     }
+  }
+
+  if (Object.values(req.body).filter((e) => e === "").length > 0) {
+    return res.status(422).json({ message: "Existem campos faltantes." });
   }
 
   Usuario.findByPk(idUsuario)

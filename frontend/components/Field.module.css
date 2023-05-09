@@ -3,9 +3,13 @@
 }
 
 .Span {
-  padding-left: 20px;
+  margin: 0px 5px 0px 20px;
 }
 
 .invalidInput {
   border: 2px solid red;
+}
+
+.div {
+  display: flex;
 }
