@@ -3,6 +3,7 @@ import axios from "axios";
 import Router from "next/router";
 import Header from "../../components/Header";
 import styles from "./index.module.css";
+import Field from "../../components/Field";
 export default function CadastrarUsuario() {
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
@@ -13,8 +14,35 @@ export default function CadastrarUsuario() {
   const [dataNascimento, setDataNascimento] = useState("");
   const [nomeMae, setNomeMae] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  let validationObject = {
+    login: true,
+    senha: true,
+    nome: true,
+    email: true,
+    cpf: true,
+    telefone: true,
+    dataNascimento: true,
+    nomeMae: true,
+  };
+
+  const ValidarCamposCadastro = (validationObject) => {
+    validationObject.login = login !== "";
+    validationObject.senha = senha !== "";
+    validationObject.nome = nome !== "";
+    validationObject.email = email !== "";
+    validationObject.cpf = cpf !== "";
+    validationObject.telefone = telefone !== "";
+    validationObject.dataNascimento = dataNascimento !== "";
+    validationObject.nomeMae = nomeMae !== "";
+  };
 
   const CadastrarUsuario = () => {
+    ValidarCamposCadastro(validationObject);
+    if (Object.values(validationObject).filter((e) => e !== true).length > 0) {
+      setErrorMessage("");
+      return;
+    }
+
     let req = {
       url: "http://localhost:3000/users/",
       method: "POST",
@@ -49,14 +77,16 @@ export default function CadastrarUsuario() {
       <div className={styles.Form}>
         <div className={styles.FormField}>
           <div>
-            <span> Login: </span>
-            <input
+            <Field
+              title="Login: "
+              isValid={validationObject.login}
               onChange={(e) => {
                 setLogin(e.target.value);
               }}
             />
-            <span className={styles.Span}> Senha: </span>
-            <input
+            <Field
+              title="Senha: "
+              isValid={validationObject.senha}
               type="password"
               onChange={(e) => {
                 setSenha(e.target.value);
@@ -65,44 +95,56 @@ export default function CadastrarUsuario() {
           </div>
         </div>
         <div className={styles.FormField}>
-          <span className={styles.Span}> Nome </span>
-          <input
+          <Field
+            title="Nome: "
+            isValid={validationObject.nome}
+            type=""
             onChange={(e) => {
               setNome(e.target.value);
             }}
           />
-          <span className={styles.Span}>e-Mail: </span>
-          <input
+          <Field
+            title="e-Mail: "
+            isValid={validationObject.email}
+            type=""
             onChange={(e) => {
               setEmail(e.target.value);
             }}
           />
         </div>
         <div className={styles.FormField}>
-          <span>CPF: </span>
-          <input
+          <Field
+            title="CPF: "
+            isValid={validationObject.cpf}
+            type=""
             onChange={(e) => {
               setCpf(e.target.value);
             }}
           />
-          <span className={styles.Span}> Tel.: </span>
-          <input
+          <Field
+            title="Telefone: "
+            isValid={validationObject.telefone}
+            type=""
             onChange={(e) => {
               setTelefone(e.target.value);
             }}
           />
         </div>
         <div className={styles.FormField}>
-          <span>Data de Nascimento: </span>
-          <input
+          <Field
+            title="Data de Nascimento: "
+            isValid={validationObject.dataNascimento}
+            type=""
             onChange={(e) => {
               setDataNascimento(e.target.value);
             }}
           />
         </div>
         <div className={styles.FormField}>
-          <span className={styles.Span}>Nome da Mãe: </span>
-          <input
+          <Field
+            title="Nome da Mãe: "
+            isValid={validationObject.nomeMae}
+            type=""
             onChange={(e) => {
               setNomeMae(e.target.value);
             }}

@@ -1,4 +1,11 @@
-.field {
-  padding: 2px;
-  min-width: 80%;
+.FormField {
+  padding: 5px 0px;
+}
+
+.Span {
+  padding-left: 20px;
+}
+
+.invalidInput {
+  border: 2px solid red;
 }

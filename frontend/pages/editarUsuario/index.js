@@ -19,6 +19,7 @@ export default function EditarUsuario() {
   const [errorMessage, setErrorMessage] = useState("");
   const [bloqueado, setBloqueado] = useState(false);
   const [loadedPage, setLoadedPage] = useState(false);
+  const [statusUsuario, setStatusUsuario] = useState(true);
 
   useEffect(() => {
     setLogin(user.login);
@@ -30,6 +31,7 @@ export default function EditarUsuario() {
     setDataNascimento(user.dataNascimento);
     setNomeMae(user.nomeMae);
     setBloqueado(user.bloqueado);
+    setStatusUsuario(user.statusUsuario);
     setLoadedPage(true);
   }, [loadedPage]);
 
@@ -48,6 +50,7 @@ export default function EditarUsuario() {
         dataNascimento: dataNascimento,
         nomeMae: nomeMae,
         bloqueado: bloqueado,
+        statusUsuario: statusUsuario,
       },
     };
 
@@ -125,6 +128,15 @@ export default function EditarUsuario() {
             value={dataNascimento}
             onChange={(e) => {
               setDataNascimento(e.target.value);
+            }}
+          />
+          <span className={styles.Span}>Desativar Usuário: </span>
+          <input
+            type="checkbox"
+            value={statusUsuario}
+            onChange={(e) => {
+              const { checked } = e.target;
+              setStatusUsuario(!checked);
             }}
           />
         </div>

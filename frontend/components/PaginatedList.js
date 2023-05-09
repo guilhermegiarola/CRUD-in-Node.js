@@ -76,7 +76,7 @@ const PaginatedList = (props) => {
                       props.DesativarUsuario(item.id);
                     }}
                   >
-                    Desativar
+                    {props.buttonLabel}
                   </button>
                   <button
                     className={styles.button}

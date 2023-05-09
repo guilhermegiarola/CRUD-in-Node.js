@@ -8,6 +8,6 @@ router.get("/", controller.encontrarUsuario);
 router.post("/", controller.inserirUsuario);
 router.put("/", controller.alterarUsuario);
 router.put("/bloquear", controller.bloquearUsuario);
-router.delete("/:id", controller.excluirUsuario);
+router.put("/excluir/:id", controller.excluirUsuario);
 
 module.exports = router;

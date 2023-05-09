@@ -6,15 +6,20 @@ import Link from "next/link";
 import Header from "../../components/Header";
 import styles from "./index.module.css";
 import { generatePDF } from "../../util/exportingTables";
+import Filtros from "../../components/Filtros";
 export default function ListaUsuarios() {
   const [listaUsuarios, setListaUsuarios] = useState([]);
   const [loadedPage, setLoadedPage] = useState(false);
   const [totalRegistros, setTotalRegistros] = useState(0);
+  const [listarInativos, setListarInativos] = useState(true);
 
   const DesativarUsuario = (id) => {
     let req = {
-      url: `http://localhost:3000/users/${id}`,
-      method: "DELETE",
+      url: `http://localhost:3000/users/excluir/${id}`,
+      method: "PUT",
+      data: {
+        desativar: !listarInativos,
+      },
     };
 
     axios(req).then((data) => {
@@ -53,7 +58,11 @@ export default function ListaUsuarios() {
     let req = {
       url: "http://localhost:3000/users/listar",
       method: "GET",
+      params: {
+        statusUsuario: listarInativos,
+      },
     };
+    console.log("listarInativos", listarInativos);
 
     axios(req).then((data) => {
       setListaUsuarios(data.data.users);
@@ -63,7 +72,7 @@ export default function ListaUsuarios() {
     if (!loadedPage) {
       setLoadedPage(false);
     }
-  }, [loadedPage, listaUsuarios.length]);
+  }, [listarInativos, loadedPage, listaUsuarios.length]);
 
   return (
     <>
@@ -73,12 +82,24 @@ export default function ListaUsuarios() {
         </Link>
         <span> Total de registros: {totalRegistros}</span>
       </Header>
-      <PaginatedList
-        items={listaUsuarios}
-        DesativarUsuario={DesativarUsuario}
-        EditarUsuario={EditarUsuario}
-        BloquearUsuario={BloquearUsuario}
-      />
+      <Filtros items={listaUsuarios} setListarInativos={setListarInativos} />
+      {!listarInativos ? (
+        <PaginatedList
+          items={listaUsuarios}
+          buttonLabel="Ativar"
+          DesativarUsuario={DesativarUsuario}
+          EditarUsuario={EditarUsuario}
+          BloquearUsuario={BloquearUsuario}
+        />
+      ) : (
+        <PaginatedList
+          items={listaUsuarios}
+          buttonLabel="Desativar"
+          DesativarUsuario={DesativarUsuario}
+          EditarUsuario={EditarUsuario}
+          BloquearUsuario={BloquearUsuario}
+        />
+      )}
       <div className={styles.buttonDiv}>
         <button
           className={styles.button}
