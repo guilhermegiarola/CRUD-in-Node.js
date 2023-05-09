@@ -6,7 +6,6 @@ import Field from "../../components/Field";
 import styles from "./index.module.css";
 export default function EditarUsuario() {
   const router = useRouter();
-  console.log(router.query.myData);
   const user = JSON.parse(router.query.myData);
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");

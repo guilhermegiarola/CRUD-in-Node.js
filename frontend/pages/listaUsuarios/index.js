@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import PaginatedList from "../../components/PaginatedList";
 import Link from "next/link";
 import Header from "../../components/Header";
+import Filters from "../../components/Filters";
 import styles from "./index.module.css";
 import { generatePDF, generateXML } from "../../util/exportingTables";
-import Filtros from "../../components/Filtros";
 export default function ListaUsuarios() {
   const [listaUsuarios, setListaUsuarios] = useState([]);
   const [loadedPage, setLoadedPage] = useState(false);
@@ -71,7 +71,11 @@ export default function ListaUsuarios() {
     if (!loadedPage) {
       setLoadedPage(false);
     }
-  }, [listarInativos, loadedPage, listaUsuarios.length]);
+  }, [listarInativos, loadedPage]);
+
+  useEffect(() => {
+    console.log(listaUsuarios);
+  }, [listaUsuarios]);
 
   return (
     <>
@@ -81,50 +85,61 @@ export default function ListaUsuarios() {
         </Link>
         <span> Total de registros: {totalRegistros}</span>
       </Header>
-      <Filtros items={listaUsuarios} setListarInativos={setListarInativos} />
-      {!listarInativos ? (
-        <PaginatedList
-          items={listaUsuarios}
-          buttonLabel="Ativar"
-          DesativarUsuario={DesativarUsuario}
-          EditarUsuario={EditarUsuario}
-          BloquearUsuario={BloquearUsuario}
-        />
-      ) : (
-        <PaginatedList
-          items={listaUsuarios}
-          buttonLabel="Desativar"
-          DesativarUsuario={DesativarUsuario}
-          EditarUsuario={EditarUsuario}
-          BloquearUsuario={BloquearUsuario}
-        />
-      )}
-      <div className={styles.buttonDiv}>
-        <button
-          className={styles.button}
-          onClick={(e) => {
-            Router.push("/cadastrarUsuario");
-          }}
-        >
-          Cadastrar Usuario
-        </button>
-        <button
-          className={styles.button}
-          onClick={(e) => {
-            generatePDF(listaUsuarios);
-          }}
-        >
-          Exportar para PDF
-        </button>
-        <button
-          className={styles.button}
-          onClick={(e) => {
-            generateXML(listaUsuarios);
-          }}
-        >
-          Exportar para Excel
-        </button>
-        <button className={styles.button}>Exportar para Word</button>
+      <div style={{ display: "flex" }}>
+        <div>
+          <Filters
+            items={listaUsuarios}
+            setListaUsuarios={setListaUsuarios}
+            setListarInativos={setListarInativos}
+          />
+        </div>
+        <div>
+          {!listarInativos ? (
+            <PaginatedList
+              items={listaUsuarios}
+              setListaUsuarios={setListaUsuarios}
+              buttonLabel="Ativar"
+              DesativarUsuario={DesativarUsuario}
+              EditarUsuario={EditarUsuario}
+              BloquearUsuario={BloquearUsuario}
+            />
+          ) : (
+            <PaginatedList
+              items={listaUsuarios}
+              buttonLabel="Desativar"
+              DesativarUsuario={DesativarUsuario}
+              EditarUsuario={EditarUsuario}
+              BloquearUsuario={BloquearUsuario}
+            />
+          )}
+          <div className={styles.buttonDiv}>
+            <button
+              className={styles.button}
+              onClick={(e) => {
+                Router.push("/cadastrarUsuario");
+              }}
+            >
+              Cadastrar Usuario
+            </button>
+            <button
+              className={styles.button}
+              onClick={(e) => {
+                generatePDF(listaUsuarios);
+              }}
+            >
+              Exportar para PDF
+            </button>
+            <button
+              className={styles.button}
+              onClick={(e) => {
+                generateXML(listaUsuarios);
+              }}
+            >
+              Exportar para Excel
+            </button>
+            <button className={styles.button}>Exportar para Word</button>
+          </div>
+        </div>
       </div>
     </>
   );

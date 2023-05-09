@@ -94,6 +94,7 @@ exports.inserirUsuario = async (req, res, next) => {
   const usuarioComMesmoCpf = await Usuario.findAll({
     where: {
       cpf: req.body.cpf,
+      statusUsuario: true,
     },
   });
 
