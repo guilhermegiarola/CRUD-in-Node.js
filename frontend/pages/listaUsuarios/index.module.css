@@ -33,3 +33,15 @@
   flex-direction: columns;
   justify-content: unset;
 }
+
+.button {
+  width: 200px;
+  height: 25px;
+  align-self: center;
+  margin-right: 10px;
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: center;
+}

@@ -79,8 +79,9 @@ export default function ListaUsuarios() {
         EditarUsuario={EditarUsuario}
         BloquearUsuario={BloquearUsuario}
       />
-      <div>
+      <div className={styles.buttonDiv}>
         <button
+          className={styles.button}
           onClick={(e) => {
             Router.push("/cadastrarUsuario");
           }}
@@ -88,14 +89,15 @@ export default function ListaUsuarios() {
           Cadastrar Usuario
         </button>
         <button
+          className={styles.button}
           onClick={(e) => {
             generatePDF(listaUsuarios);
           }}
         >
           Exportar para PDF
         </button>
-        <button>Exportar para Excel</button>
-        <button>Exportar para Word</button>
+        <button className={styles.button}>Exportar para Excel</button>
+        <button className={styles.button}>Exportar para Word</button>
       </div>
     </>
   );

@@ -1,5 +1,6 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { Document } from "docx";
 
 export const generatePDF = (data) => {
   const document = new jsPDF("l");

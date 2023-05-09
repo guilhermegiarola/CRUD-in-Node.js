@@ -90,7 +90,19 @@ exports.recuperarSenha = (req, res, next) => {
 };
 
 //inserir um novo usuario
-exports.inserirUsuario = (req, res, next) => {
+exports.inserirUsuario = async (req, res, next) => {
+  const usuarioComMesmoCpf = await Usuario.findAll({
+    where: {
+      cpf: req.body.cpf,
+    },
+  });
+
+  if (usuarioComMesmoCpf.length > 0) {
+    return res
+      .status(409)
+      .json({ message: "Já existe outro usuário com este CPF." });
+  }
+
   Usuario.create({
     nome: req.body.nome,
     login: req.body.login,
@@ -106,7 +118,6 @@ exports.inserirUsuario = (req, res, next) => {
     bloqueado: false,
   })
     .then((result) => {
-      console.log("Usuario criado.");
       res.status(201).json({
         message: "Usuario criado com sucesso.",
         user: result,
@@ -118,8 +129,8 @@ exports.inserirUsuario = (req, res, next) => {
 };
 
 //alterar um usuario
-exports.alterarUsuario = (req, res, next) => {
-  const id = req.body.id;
+exports.alterarUsuario = async (req, res, next) => {
+  const idUsuario = req.body.id;
   const nome = req.body.nome;
   const login = req.body.login;
   const senha = req.body.senha;
@@ -128,11 +139,31 @@ exports.alterarUsuario = (req, res, next) => {
   const cpf = req.body.cpf;
   const dataNascimento = req.body.dataNascimento;
   const nomeMae = req.body.nomeMae;
+  const bloqueado = req.body.bloqueado;
 
-  Usuario.findByPk(id)
+  const findEqualLogins = await Usuario.findAll({
+    where: {
+      login: login,
+    },
+  });
+
+  for (let it of findEqualLogins) {
+    if (it.dataValues.id !== idUsuario) {
+      return res
+        .status(409)
+        .json({ message: "Já existe outro usuário com este login." });
+    }
+  }
+
+  Usuario.findByPk(idUsuario)
     .then((user) => {
       if (!user) {
         return res.status(404).json({ message: "Usuario nao encontrado!" });
+      }
+      if (user.id !== idUsuario) {
+        return res
+          .status(200)
+          .json({ message: "Já existe outro usuário com este login." });
       }
       user.nome = nome;
       user.login = login;
@@ -143,6 +174,7 @@ exports.alterarUsuario = (req, res, next) => {
       user.dataNascimento = dataNascimento;
       user.nomeMae = nomeMae;
       user.dataAlteracao = Date.now();
+      user.bloqueado = bloqueado;
       return user.save();
     })
     .then((result) => {

@@ -47,7 +47,7 @@ const PaginatedList = (props) => {
   return (
     <>
       <div className={styles.container}>
-        <table>
+        <table className={styles.table}>
           <tr>
             <th>Nome</th>
             <th>CPF</th>
@@ -58,30 +58,28 @@ const PaginatedList = (props) => {
           {pageItems.map((item) => {
             return (
               <tr key={item.id}>
-                <td>{item.nome}</td>
-                <td>{item.cpf}</td>
-                <td>{item.email}</td>
-
-                <td>
+                <td className={styles.tableCell}>{item.nome}</td>
+                <td className={styles.tableCell}>{item.cpf}</td>
+                <td className={styles.tableCell}>{item.email}</td>
+                <td className={styles.tableCell}>
                   <button
+                    className={styles.button}
                     onClick={(e) => {
                       props.EditarUsuario(item);
                     }}
                   >
                     Editar
                   </button>
-                </td>
-                <td>
                   <button
+                    className={styles.button}
                     onClick={(e) => {
                       props.DesativarUsuario(item.id);
                     }}
                   >
                     Desativar
                   </button>
-                </td>
-                <td>
                   <button
+                    className={styles.button}
                     onClick={(e) => {
                       props.BloquearUsuario(item.id);
                     }}

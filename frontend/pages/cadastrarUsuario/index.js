@@ -30,9 +30,15 @@ export default function CadastrarUsuario() {
       },
     };
 
-    axios(req).then((data) => {
-      Router.push("/listaUsuarios");
-    });
+    axios(req)
+      .then((data) => {
+        setErrorMessage("");
+        Router.push("/listaUsuarios");
+      })
+      .catch((err) => {
+        setErrorMessage("Já existe outro usuário com este CPF.");
+        return;
+      });
   };
 
   return (

@@ -6,6 +6,7 @@ import styles from "./index.module.css";
 import { data } from "autoprefixer";
 export default function EditarUsuario() {
   const router = useRouter();
+  console.log(router.query.myData);
   const user = JSON.parse(router.query.myData);
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
@@ -16,6 +17,7 @@ export default function EditarUsuario() {
   const [dataNascimento, setDataNascimento] = useState("");
   const [nomeMae, setNomeMae] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [bloqueado, setBloqueado] = useState(false);
   const [loadedPage, setLoadedPage] = useState(false);
 
   useEffect(() => {
@@ -27,6 +29,7 @@ export default function EditarUsuario() {
     setTelefone(user.telefone);
     setDataNascimento(user.dataNascimento);
     setNomeMae(user.nomeMae);
+    setBloqueado(user.bloqueado);
     setLoadedPage(true);
   }, [loadedPage]);
 
@@ -44,13 +47,19 @@ export default function EditarUsuario() {
         telefone: telefone,
         dataNascimento: dataNascimento,
         nomeMae: nomeMae,
+        bloqueado: bloqueado,
       },
     };
 
-    axios(req).then((data) => {
-      console.log(data);
-      Router.push("/listaUsuarios");
-    });
+    axios(req)
+      .then((data) => {
+        setErrorMessage("");
+        Router.push("/listaUsuarios");
+      })
+      .catch((err) => {
+        setErrorMessage("Já existe outro usuário com este login.");
+        return;
+      });
   };
 
   return (
@@ -125,6 +134,15 @@ export default function EditarUsuario() {
             value={nomeMae}
             onChange={(e) => {
               setNomeMae(e.target.value);
+            }}
+          />
+          <span className={styles.Span}>Bloquear Usuário: </span>
+          <input
+            type="checkbox"
+            value={bloqueado}
+            onChange={(e) => {
+              const { checked } = e.target;
+              setBloqueado(checked);
             }}
           />
         </div>

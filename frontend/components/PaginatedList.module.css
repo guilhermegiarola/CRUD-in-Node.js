@@ -1,5 +1,8 @@
 .container {
   padding: 0 2rem;
+  justify-content: center;
+  display: flex;
+  margin: 30px;
 }
 
 .pagination {
@@ -7,11 +10,33 @@
   justify-content: center;
   align-items: center;
   list-style: none;
-  max-width: 30%;
+  max-width: 60%;
+}
+
+.table {
+  max-width: 1024px;
+  min-width: 80%;
+  align-self: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.tableCell {
+  text-align: center;
+  display: table-cell;
+  vertical-align: inherit;
+  word-wrap: break-word;
 }
 
 .pageLink {
   cursor: pointer;
+}
+
+.button {
+  width: 100px;
+  height: 25px;
+  align-self: center;
+  margin-right: 10px;
 }
 
 /* pagination pageItem */
