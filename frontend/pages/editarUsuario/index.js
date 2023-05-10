@@ -85,6 +85,7 @@ export default function EditarUsuario() {
         Router.push("/listaUsuarios");
       })
       .catch((err) => {
+        console.log(err);
         setErrorMessage(err.response.data.message);
         return;
       });
@@ -160,7 +161,7 @@ export default function EditarUsuario() {
             title="Data de Nascimento: "
             isValid={validationObject.dataNascimento}
             value={dataNascimento}
-            type=""
+            type="date"
             onChange={(e) => {
               setDataNascimento(e.target.value);
             }}

@@ -6,7 +6,11 @@ import Link from "next/link";
 import Header from "../../components/Header";
 import Filters from "../../components/Filters";
 import styles from "./index.module.css";
-import { generatePDF, generateXML } from "../../util/exportingTables";
+import {
+  generatePDF,
+  generateXML,
+  generateDOC,
+} from "../../util/exportingTables";
 export default function ListaUsuarios() {
   const [listaUsuarios, setListaUsuarios] = useState([]);
   const [loadedPage, setLoadedPage] = useState(false);
@@ -65,17 +69,14 @@ export default function ListaUsuarios() {
 
     axios(req).then((data) => {
       setListaUsuarios(data.data.users);
+      setTotalRegistros(data.data.users.length);
     });
-    setTotalRegistros(listaUsuarios.length);
 
     if (!loadedPage) {
-      setLoadedPage(false);
+      setLoadedPage(true);
     }
+    console.log(listarInativos);
   }, [listarInativos, loadedPage]);
-
-  useEffect(() => {
-    console.log(listaUsuarios);
-  }, [listaUsuarios]);
 
   return (
     <>
@@ -85,7 +86,7 @@ export default function ListaUsuarios() {
         </Link>
         <span> Total de registros: {totalRegistros}</span>
       </Header>
-      <div style={{ display: "flex" }}>
+      <div className={styles.outerDiv}>
         <div>
           <Filters
             items={listaUsuarios}
@@ -97,6 +98,7 @@ export default function ListaUsuarios() {
           {!listarInativos ? (
             <PaginatedList
               items={listaUsuarios}
+              currentPage={1}
               setListaUsuarios={setListaUsuarios}
               buttonLabel="Ativar"
               DesativarUsuario={DesativarUsuario}
@@ -105,6 +107,7 @@ export default function ListaUsuarios() {
             />
           ) : (
             <PaginatedList
+              currentPage={1}
               items={listaUsuarios}
               buttonLabel="Desativar"
               DesativarUsuario={DesativarUsuario}
@@ -137,7 +140,15 @@ export default function ListaUsuarios() {
             >
               Exportar para Excel
             </button>
-            <button className={styles.button}>Exportar para Word</button>
+            <button
+              className={styles.button}
+              onClick={(e) => {
+                generateDOC(listaUsuarios);
+              }}
+            >
+              Exportar para Word
+            </button>
+            <button className={styles.button}>Imprimir Página</button>
           </div>
         </div>
       </div>

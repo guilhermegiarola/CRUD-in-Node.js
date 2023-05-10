@@ -3,15 +3,31 @@ import style from "./Filters.module.css";
 
 const Filters = (props) => {
   const [unfilteredList, setUnfilteredList] = useState([]);
+  const [inactiveList, setInactiveList] = useState([]);
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
   const [login, setLogin] = useState("");
   const faixasEtarias = [
-    "18-26 anos",
-    "25-31 anos",
-    "30-36 anos",
-    "35-41 anos",
-    " > 40 anos",
+    {
+      value: "18-26 anos",
+      min: 18,
+      max: 26,
+    },
+    {
+      value: "25-31 anos",
+      min: 25,
+      max: 31,
+    },
+    {
+      value: "35-41 anos",
+      min: 35,
+      max: 41,
+    },
+    {
+      value: "> 40 anos",
+      min: 40,
+      max: 9999,
+    },
   ];
 
   useEffect(() => {
@@ -19,6 +35,7 @@ const Filters = (props) => {
     if (unfilteredList.length === 0) {
       setUnfilteredList(props.items);
     }
+
     props.setListaUsuarios(
       unfilteredList
         .filter((item) => item.nome.includes(nome))
@@ -70,19 +87,42 @@ const Filters = (props) => {
         </div>
         <div className={style.field}>
           Período de Nascimento:
-          <input />
+          <div>
+            De: <input />
+          </div>
+          <div>
+            A: <input />
+          </div>
         </div>
         <div className={style.field}>
           Período de Inserção:
-          <input />
+          <div>
+            De: <input />
+          </div>
+          <div>
+            A: <input />
+          </div>
         </div>
         <div className={style.field}>
           Período de Alteração:
-          <input />
+          <div>
+            De: <input />
+          </div>
+          <div>
+            A: <input />
+          </div>
         </div>
         <div className={style.field}>
           Faixa Etária:
-          <input />
+          <select>
+            {faixasEtarias.map((el) => {
+              return (
+                <option key={el.indexOf} value={el}>
+                  {el}
+                </option>
+              );
+            })}
+          </select>
         </div>
       </div>
     </>

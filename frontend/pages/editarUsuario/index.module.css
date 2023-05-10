@@ -3,6 +3,11 @@
   align-self: center;
 }
 
+.outerDiv {
+  justify-content: center;
+  display: flex;
+}
+
 .Form {
   align-items: center;
   display: flex;

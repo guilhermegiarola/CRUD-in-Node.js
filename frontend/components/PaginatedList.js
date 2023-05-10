@@ -3,13 +3,15 @@ import styles from "./PaginatedList.module.css";
 import axios from "axios";
 
 const Paginate = (items, pageNumber, pageSize) => {
+  if (items.length < pageSize) {
+    return items;
+  }
   const startIndex = (pageNumber - 1) * pageSize;
   return items.slice(startIndex, startIndex + pageSize);
 };
 
 const Pagination = ({ items, pageSize, currentPage, onPageChange }) => {
   const pagesCount = Math.ceil(items / pageSize);
-
   if (pagesCount === 1) return null;
   const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
 
@@ -34,7 +36,7 @@ const Pagination = ({ items, pageSize, currentPage, onPageChange }) => {
 };
 
 const PaginatedList = (props) => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(props.currentPage);
   const pageSize = 10;
   const items = props.items;
 
@@ -43,7 +45,6 @@ const PaginatedList = (props) => {
   };
 
   const pageItems = Paginate(items, currentPage, pageSize);
-
   return (
     <>
       <div className={styles.container}>
@@ -61,7 +62,7 @@ const PaginatedList = (props) => {
                 <td className={styles.tableCell}>{item.nome}</td>
                 <td className={styles.tableCell}>{item.cpf}</td>
                 <td className={styles.tableCell}>{item.email}</td>
-                <td className={styles.tableCell}>
+                <td className={styles.buttonTableCell}>
                   <button
                     className={styles.button}
                     onClick={(e) => {

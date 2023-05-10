@@ -1,4 +1,10 @@
 const Usuario = require("../models/user");
+const {
+  validarCamposVazios,
+  validarEmail,
+  validarTelefone,
+  validarCpf,
+} = require("../util/validateInput");
 
 //CRUD Controllers
 
@@ -104,8 +110,20 @@ exports.inserirUsuario = async (req, res, next) => {
       .json({ message: "Já existe outro usuário com este CPF." });
   }
 
-  if (Object.values(req.body).filter((e) => e === "").length > 0) {
+  if (validarCamposVazios(req)) {
     return res.status(422).json({ message: "Existem campos faltantes." });
+  }
+
+  if (!validarEmail(email)) {
+    return res.status(422).json({ message: "e-Mail inválido!" });
+  }
+
+  if (!validarTelefone(telefone)) {
+    return res.status(422).json({ message: "Telefone inválido." });
+  }
+
+  if (!validarCpf(cpf)) {
+    return res.status(422).json({ message: "CPF inválido." });
   }
 
   Usuario.create({
@@ -161,8 +179,20 @@ exports.alterarUsuario = async (req, res, next) => {
     }
   }
 
-  if (Object.values(req.body).filter((e) => e === "").length > 0) {
+  if (validarCamposVazios(req)) {
     return res.status(422).json({ message: "Existem campos faltantes." });
+  }
+
+  if (!validarEmail(email)) {
+    return res.status(422).json({ message: "e-Mail inválido!" });
+  }
+
+  if (!validarTelefone(telefone)) {
+    return res.status(422).json({ message: "Telefone inválido." });
+  }
+
+  if (!validarCpf(cpf)) {
+    return res.status(422).json({ message: "CPF inválido." });
   }
 
   Usuario.findByPk(idUsuario)

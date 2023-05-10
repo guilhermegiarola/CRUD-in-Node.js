@@ -143,7 +143,7 @@ export default function CadastrarUsuario() {
           <Field
             title="Data de Nascimento: "
             isValid={validationObject.dataNascimento}
-            type=""
+            type="date"
             onChange={(e) => {
               setDataNascimento(e.target.value);
             }}
