@@ -83,7 +83,10 @@ export default function ListaUsuarios() {
         <Link href="/" className={styles.forgotPassword}>
           Voltar para a tela de Login
         </Link>
-        <span> Total de registros: {totalRegistros}</span>
+        <span className={styles.forgotPassword}>
+          {" "}
+          Total de registros: {totalRegistros}
+        </span>
       </Header>
       <div className={styles.outerDiv}>
         <div>

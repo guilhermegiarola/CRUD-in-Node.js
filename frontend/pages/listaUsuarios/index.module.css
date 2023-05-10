@@ -29,12 +29,13 @@
 }
 
 .forgotPassword {
-  padding-left: 10px;
+  padding-left: 65px;
+  padding-right: 65px;
   color: black;
   text-decoration: none;
 
   display: flex;
-  align-self: baseline;
+  align-self: center;
   flex-direction: columns;
   justify-content: unset;
 }
