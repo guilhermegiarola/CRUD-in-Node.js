@@ -3,6 +3,7 @@ import styles from "./index.module.css";
 import { useState } from "react";
 import Router from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 import Header from "../components/Header";
 
 export default function Login() {
@@ -94,6 +95,9 @@ export default function Login() {
           </Link>
         </div>
       </Header>
+      <div className={styles.image}>
+        <Image src="/landing-page.png" width="960" height="540" alt="" />
+      </div>
     </>
   );
 }

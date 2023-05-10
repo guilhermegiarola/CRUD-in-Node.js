@@ -114,15 +114,15 @@ exports.inserirUsuario = async (req, res, next) => {
     return res.status(422).json({ message: "Existem campos faltantes." });
   }
 
-  if (!validarEmail(email)) {
+  if (!validarEmail(req.body.email)) {
     return res.status(422).json({ message: "e-Mail inválido!" });
   }
 
-  if (!validarTelefone(telefone)) {
+  if (!validarTelefone(req.body.telefone)) {
     return res.status(422).json({ message: "Telefone inválido." });
   }
 
-  if (!validarCpf(cpf)) {
+  if (!validarCpf(req.body.cpf)) {
     return res.status(422).json({ message: "CPF inválido." });
   }
 

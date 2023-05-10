@@ -85,7 +85,6 @@ export default function EditarUsuario() {
         Router.push("/listaUsuarios");
       })
       .catch((err) => {
-        console.log(err);
         setErrorMessage(err.response.data.message);
         return;
       });

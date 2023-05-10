@@ -1,3 +1,4 @@
+import axios from "axios";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import exportFromJSON from "export-from-json";
@@ -50,30 +51,16 @@ export const generatePDF = (data) => {
   document.save(`listaUsuarios.pdf`);
 };
 
-export const generateDOC = (data) => {
-  const doc = new Document({
-    sections: [
-      {
-        properties: {},
-        children: [
-          new Paragraph({
-            children: [
-              new TextRun("Hello World"),
-              new TextRun({
-                text: "Foo Bar",
-                bold: true,
-              }),
-              new TextRun({
-                text: "\tGithub is the best",
-                bold: true,
-              }),
-            ],
-          }),
-        ],
-      },
-    ],
-  });
-  Packer.toBuffer(doc).then((buffer) => {
-    fs.writeFileSync("Document.docx", buffer);
+export const generateDOC = (list) => {
+  let req = {
+    url: "http://localhost:3000/util/generatedocument",
+    method: "PUT",
+    data: {
+      list: list,
+    },
+  };
+
+  axios(req).then((data) => {
+    console.log(data.data.message);
   });
 };

@@ -23,6 +23,7 @@ app.get("/", (req, res, next) => {
 
 //CRUD routes
 app.use("/users", require("./routes/users"));
+app.use("/util", require("./routes/util"));
 
 //error handling
 app.use((error, req, res, next) => {

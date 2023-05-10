@@ -15,6 +15,7 @@ exports.validarTelefone = (telefone) => {
 
 exports.validarCpf = (cpf) => {
   cpf = cpf.replace(/[^a-zA-Z0-9]/g, "");
+  cpf = cpf.replace(" ", "");
   console.log(cpf, cpf.length);
   return cpf.length === 11;
 };

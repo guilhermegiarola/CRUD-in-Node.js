@@ -75,7 +75,6 @@ export default function ListaUsuarios() {
     if (!loadedPage) {
       setLoadedPage(true);
     }
-    console.log(listarInativos);
   }, [listarInativos, loadedPage]);
 
   return (
@@ -90,6 +89,7 @@ export default function ListaUsuarios() {
         <div>
           <Filters
             items={listaUsuarios}
+            listarInativos={listarInativos}
             setListaUsuarios={setListaUsuarios}
             setListarInativos={setListarInativos}
           />

@@ -3,11 +3,29 @@ import style from "./Filters.module.css";
 
 const Filters = (props) => {
   const [unfilteredList, setUnfilteredList] = useState([]);
-  const [inactiveList, setInactiveList] = useState([]);
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
   const [login, setLogin] = useState("");
+  const [faixaEtaria, setFaixaEtaria] = useState({});
+  const [periodoNascimento, setPeriodoNascimento] = useState({
+    de: new Date(999, 1, 1),
+    a: new Date(2999, 1, 1),
+  });
+  const [periodoInsercao, setPeriodoInsercao] = useState({
+    de: new Date(999, 1, 1),
+    a: new Date(2999, 1, 1),
+  });
+  const [periodoAlteracao, setPeriodoAlteracao] = useState({
+    de: new Date(999, 1, 1),
+    a: new Date(2999, 1, 1),
+  });
+
   const faixasEtarias = [
+    {
+      value: "Selecione",
+      min: -1,
+      max: 9999,
+    },
     {
       value: "18-26 anos",
       min: 18,
@@ -30,17 +48,115 @@ const Filters = (props) => {
     },
   ];
 
+  // const handleSelect = (element) => {
+  //   for (let it of faixasEtarias) {
+  //     if (it.value === element) {
+  //       setFaixaEtaria((faixaEtaria) => ({
+  //         min: it.min,
+  //         max: it.max,
+  //       }));
+  //     }
+  //   }
+  // };
+
+  // const calcularIdade = (item) => {
+  //   if (item !== undefined) {
+  //     let currentYear = new Date().getFullYear();
+  //     let generatedDate = new Date(item.dataNascimento);
+  //     if (generatedDate instanceof Date && !isNaN(generatedDate)) {
+  //       return currentYear - generatedDate.getFullYear();
+  //     } else {
+  //       return faixaEtaria.min - 1;
+  //     }
+  //   }
+  // };
+
+  // const formatarDataNascimento = (item) => {
+  //   if (item !== undefined) {
+  //     let generatedDate = new Date(item.dataNascimento);
+  //     if (generatedDate instanceof Date && !isNaN(generatedDate)) {
+  //       return generatedDate;
+  //     } else {
+  //       return new Date(2999, 1, 1).value;
+  //     }
+  //   } else {
+  //     return new Date(2999, 1, 1).value;
+  //   }
+  // };
+
   useEffect(() => {
-    //Setting the original list to the unfiltered list.
     if (unfilteredList.length === 0) {
       setUnfilteredList(props.items);
     }
+
+    // if (isNaN(new Date(periodoNascimento.de).getTime())) {
+    //   setPeriodoNascimento({
+    //     de: new Date(999, 1, 1),
+    //     a: periodoNascimento.a,
+    //   });
+    // }
+
+    // if (isNaN(new Date(periodoNascimento.a).getTime())) {
+    //   setPeriodoNascimento({
+    //     de: periodoNascimento.de,
+    //     a: new Date(2999, 1, 1),
+    //   });
+    // }
+
+    // if (isNaN(new Date(periodoInsercao.de).getTime())) {
+    //   setPeriodoInsercao({
+    //     de: new Date(999, 1, 1),
+    //     a: periodoInsercao.a,
+    //   });
+    // }
+
+    // if (isNaN(new Date(periodoInsercao.a).getTime())) {
+    //   setPeriodoInsercao({
+    //     a: new Date(2999, 1, 1),
+    //     de: periodoInsercao.de,
+    //   });
+    // }
+
+    // if (isNaN(new Date(periodoAlteracao.de).getTime())) {
+    //   setPeriodoAlteracao({
+    //     de: new Date(999, 1, 1),
+    //     a: periodoAlteracao.a,
+    //   });
+    // }
+
+    // if (isNaN(new Date(periodoAlteracao.a).getTime())) {
+    //   setPeriodoAlteracao({
+    //     a: new Date(2999, 1, 1),
+    //     de: periodoNascimento.de,
+    //   });
+    // }
 
     props.setListaUsuarios(
       unfilteredList
         .filter((item) => item.nome.includes(nome))
         .filter((item) => item.cpf.includes(cpf))
         .filter((item) => item.login.includes(login))
+      // .filter(
+      //   (item) =>
+      //     new Date(item.dataNascimento) >= new Date(periodoNascimento.de)
+      // )
+      // .filter(
+      //   (item) =>
+      //     new Date(item.dataNascimento) <= new Date(periodoNascimento.a)
+      // )
+      // .filter(
+      //   (item) => new Date(item.dataInclusao) >= new Date(periodoInsercao.de)
+      // )
+      // .filter(
+      //   (item) => new Date(item.dataInclusao) <= new Date(periodoInsercao.a)
+      // )
+      // .filter(
+      //   (item) =>
+      //     new Date(item.dataAlteracao) >= new Date(periodoAlteracao.de)
+      // )
+      // .filter(
+      //   (item) => new Date(item.dataAlteracao) <= new Date(periodoAlteracao.a)
+      // )
     );
   }, [nome, cpf, login]);
 
@@ -88,37 +204,91 @@ const Filters = (props) => {
         <div className={style.field}>
           Período de Nascimento:
           <div>
-            De: <input />
+            De:{" "}
+            <input
+              type="date"
+              onChange={(e) => {
+                setPeriodoNascimento({
+                  de: e.target.value,
+                  a: periodoNascimento.a,
+                });
+              }}
+            />
           </div>
           <div>
-            A: <input />
+            A:
+            <input
+              type="date"
+              onChange={(e) => {
+                setPeriodoNascimento({
+                  de: periodoNascimento.de,
+                  a: e.target.value,
+                });
+              }}
+            />
           </div>
         </div>
         <div className={style.field}>
           Período de Inserção:
           <div>
-            De: <input />
+            De:{" "}
+            <input
+              type="date"
+              onChange={(e) => {
+                setPeriodoInsercao({
+                  de: e.target.value,
+                  a: periodoInsercao.a,
+                });
+              }}
+            />
           </div>
           <div>
-            A: <input />
+            A:
+            <input
+              type="date"
+              onChange={(e) => {
+                setPeriodoInsercao({
+                  de: periodoInsercao.de,
+                  a: e.target.value,
+                });
+              }}
+            />
           </div>
         </div>
         <div className={style.field}>
           Período de Alteração:
           <div>
-            De: <input />
+            De:{" "}
+            <input
+              type="date"
+              onChange={(e) => {
+                setPeriodoAlteracao({
+                  de: e.target.value,
+                  a: periodoAlteracao.a,
+                });
+              }}
+            />
           </div>
           <div>
-            A: <input />
+            A:
+            <input
+              type="date"
+              onChange={(e) => {
+                setPeriodoAlteracao({
+                  de: periodoAlteracao.de,
+                  a: e.target.value,
+                });
+              }}
+            />
           </div>
         </div>
         <div className={style.field}>
           Faixa Etária:
-          <select>
+          <select onChange={(e) => handleSelect(e.target.value)}>
             {faixasEtarias.map((el) => {
               return (
-                <option key={el.indexOf} value={el}>
-                  {el}
+                <option key={el.indexOf} value={el.value}>
+                  {el.value}
                 </option>
               );
             })}
