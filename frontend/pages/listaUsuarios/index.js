@@ -32,6 +32,20 @@ export default function ListaUsuarios() {
     setListaUsuarios(listaUsuarios.filter((el) => el.id !== id));
   };
 
+  const ExcluirTudo = () => {
+    let req = {
+      url: `http://localhost:3000/users/excluir`,
+      method: "POST",
+    };
+
+    axios(req).then((data) => {
+      alert(data.data.message);
+    });
+
+    setListaUsuarios([]);
+    setTotalRegistros(0);
+  };
+
   const BloquearUsuario = (id) => {
     let req = {
       url: `http://localhost:3000/users/bloquear`,
@@ -151,7 +165,14 @@ export default function ListaUsuarios() {
             >
               Exportar para Word
             </button>
-            <button className={styles.button}>Imprimir Página</button>
+            <button
+              className={styles.button}
+              onClick={(e) => {
+                ExcluirTudo();
+              }}
+            >
+              Excluir Registros
+            </button>
           </div>
         </div>
       </div>

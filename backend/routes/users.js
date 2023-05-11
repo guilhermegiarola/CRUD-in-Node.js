@@ -6,6 +6,7 @@ router.put("/recuperarSenha", controller.recuperarSenha);
 router.get("/listar", controller.listarUsuarios);
 router.get("/", controller.encontrarUsuario);
 router.post("/", controller.inserirUsuario);
+router.post("/excluir", controller.excluirRegistros);
 router.put("/", controller.alterarUsuario);
 router.put("/bloquear", controller.bloquearUsuario);
 router.put("/excluir/:id", controller.excluirUsuario);

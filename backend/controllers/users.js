@@ -261,3 +261,14 @@ exports.excluirUsuario = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
+exports.excluirRegistros = async (req, res, next) => {
+  Usuario.update(
+    {
+      statusUsuario: false,
+    },
+    {
+      where: {},
+    }
+  );
+};
